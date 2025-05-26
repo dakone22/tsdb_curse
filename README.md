@@ -3,7 +3,8 @@
 # Установка
 
 - Только для linux/WSL
-- Используйте python 3.10
+- Использовался python 3.10
+- Использовать [совместимую](https://community.cloudera.com/t5/Community-Articles/Spark-and-Java-versions-Supportability-Matrix/ta-p/383669) Java версию со спарком (8/11/17, не выше!)
 
 ```bash
 python3.10 -m venv .venv
