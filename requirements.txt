@@ -1,0 +1,5 @@
+elasticsearch==8.8.0
+pyspark==3.4.0  # не знаю почему, но с 3.2.1 были проблемы, а с 3.4.0 нету...
+psycopg2-binary==2.9.6
+sentence-transformers==3.4.1
+neo4j==5.28.1

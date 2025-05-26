@@ -1,0 +1,9 @@
+.idea/
+
+venv/
+.venv/
+
+es/config/elasticsearch.keystore
+
+output/
+data/

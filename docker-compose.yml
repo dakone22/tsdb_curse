@@ -1,0 +1,115 @@
+version: "3.8"
+services:
+  elasticsearch:
+    image: elasticsearch:8.8.0
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - network.host=0.0.0.0
+      - xpack.security.enabled=false           # https выкл
+      - xpack.security.http.ssl.enabled=false  # https выкл
+    ports:
+      - "9200:9200"
+    volumes:
+      - ./es/config:/usr/share/elasticsearch/config
+      - es-data:/usr/share/elasticsearch/data
+    networks:
+      - tour-net
+
+  kibana:
+    image: kibana:8.8.0
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - tour-net
+
+  neo4j:
+    image: neo4j:5.11
+    environment:
+      NEO4J_AUTH: "neo4j/password"
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j-data:/data
+      - ./output:/import  # для возможности загрузить csv-данные
+    networks:
+      - tour-net
+
+  hdfs-namenode:
+    image: cicorias/hadoop-namenode:3.2.1
+    environment:
+      - CLUSTER_NAME=tour-cluster
+      - CORE_CONF_fs_defaultFS=hdfs://hdfs-namenode:8020
+      - HDFS_CONF_dfs_replication=1
+      - HDFS_CONF_dfs_permissions_enabled=false  # отключаем проверку доступов пользователей
+    ports:
+      - "9870:9870"
+      - "8020:8020" # так как запускаем всё внутри сети контейнеров, вытаскиваем наружу порты, и придётся юзать hdfs://localhost:8020, так как hdfs://`hdfs-namenode`:8020 снаружи мы не достанем
+    volumes:
+      - hdfs-nn-data:/hadoop/dfs/name
+    networks:
+      - tour-net
+
+  hdfs-datanode:
+    image: cicorias/hadoop-datanode:3.2.1
+    environment:
+      - CORE_CONF_fs_defaultFS=hdfs://hdfs-namenode:8020
+      - HDFS_CONF_dfs_replication=1
+      - HDFS_CONF_dfs_permissions_enabled=false
+    depends_on:
+      - hdfs-namenode
+    volumes:
+      - hdfs-dn-data:/hadoop/dfs/data
+    networks:
+      - tour-net
+
+  spark-master:
+    image: bitnami/spark:3.2.1
+    environment:
+      - SPARK_MODE=master
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+    ports:
+      - "8080:8080"
+      - "7077:7077"
+    depends_on:
+      - hdfs-namenode
+      - elasticsearch
+    networks:
+      - tour-net
+
+  spark-worker:
+    image: bitnami/spark:3.2.1
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+    depends_on:
+      - spark-master
+    networks:
+      - tour-net
+
+  postgres:
+    image: pgvector/pgvector:pg15
+    environment:
+      POSTGRES_PASSWORD: iu6-magisters
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - tour-net
+
+volumes:
+  es-data:
+  neo4j-data:
+  hdfs-nn-data:
+  hdfs-dn-data:
+  pgdata:
+
+networks:
+  tour-net:
+    driver: bridge

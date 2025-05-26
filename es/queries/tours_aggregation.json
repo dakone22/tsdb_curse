@@ -1,0 +1,11 @@
+{
+  "size": 0,
+  "aggs": {
+    "tours_per_country": {
+      "terms": {
+        "field": "страна",
+        "size": 20
+      }
+    }
+  }
+}

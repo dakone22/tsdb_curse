@@ -1,0 +1,19 @@
+{
+  "size": 0,
+  "aggs": {
+    "tours_by_year": {
+      "date_histogram": {
+        "field":             "дата_тура",
+        "calendar_interval": "year"
+      },
+      "aggs": {
+        "sales_by_country": {
+          "terms": {
+            "field": "страна",
+            "size": 20
+          }
+        }
+      }
+    }
+  }
+}
