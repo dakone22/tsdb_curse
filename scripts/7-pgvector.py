@@ -1,18 +1,29 @@
+"""
+Скрипт для работы с векторными эмбеддингами в PostgreSQL с использованием pgvector.
+Основные функции:
+1. Получение данных о туристах из Elasticsearch
+2. Создание векторных представлений с помощью модели rubert-tiny2
+3. Сохранение эмбеддингов в PostgreSQL
+4. Поиск ближайших соседей по векторному сходству
+"""
+
 import os
 import psycopg2
 from psycopg2.extras import execute_values
 from elasticsearch import Elasticsearch
 
-# Конфигурация подключения
-ES_HOST = os.environ.get("ES_HOST", "localhost")
-ES_PORT = os.environ.get("ES_PORT", "9200")
 
+# Конфигурация подключения к Elasticsearch
+ES_HOST = os.environ.get("ES_HOST", "localhost")  # Хост Elasticsearch
+ES_PORT = os.environ.get("ES_PORT", "9200")      # Порт Elasticsearch
+
+# Конфигурация подключения к PostgreSQL
 DB_CONFIG = {
-    'dbname':   os.environ.get("POSTGRES_DBNAME",   "postgres"),
-    'user':     os.environ.get("POSTGRES_USER",     "postgres"),
-    'password': os.environ.get("POSTGRES_PASSWORD", "iu6-magisters"),
-    'host':     os.environ.get("POSTGRES_HOST",     "localhost"),
-    'port':     os.environ.get("POSTGRES_PORT",     "5432"),
+    'dbname':   os.environ.get("POSTGRES_DBNAME",   "postgres"),   # Имя БД
+    'user':     os.environ.get("POSTGRES_USER",     "postgres"),   # Пользователь
+    'password': os.environ.get("POSTGRES_PASSWORD", "iu6-magisters"),  # Пароль
+    'host':     os.environ.get("POSTGRES_HOST",     "localhost"),  # Хост
+    'port':     os.environ.get("POSTGRES_PORT",     "5432"),       # Порт
 }
 
 # Загрузка модели

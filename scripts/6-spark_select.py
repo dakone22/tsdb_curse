@@ -1,17 +1,23 @@
 import os
-
 from pyspark.sql import SparkSession
 
+# Настройки подключения к Elasticsearch
+ES_HOST = os.environ.get("ES_HOST", "localhost")  # Хост Elasticsearch
+ES_PORT = os.environ.get("ES_PORT", "9200")      # Порт Elasticsearch
 
-ES_HOST = os.environ.get("ES_HOST", "localhost")
-ES_PORT = os.environ.get("ES_PORT", "9200")
+# Настройки подключения к Hadoop
+HOST = os.environ.get("HOST", "localhost")       # Хост Hadoop
+PORT = os.environ.get("PORT", "8020")            # Порт Hadoop
 
-HADOOP_HOST = os.environ.get("HADOOP_HOST", "localhost")
-HADOOP_PORT = os.environ.get("HADOOP_PORT", "8020")
+# Формирование URL для подключения к HDFS
+URL = f"hdfs://{HOST}:{PORT}"
 
-HADOOP_URI = f"hdfs://{HADOOP_HOST}:{HADOOP_PORT}"
-
-
+# Создаем SparkSession с настройками для работы с Elasticsearch
+# - Имя приложения Spark
+# - spark.jars.packages: Подключаем Elasticsearch connector
+# - es.nodes:            Адрес Elasticsearch
+# - spark.es.nodes:      Имя сервиса Elasticsearch в Docker
+# - spark.es.port:       Порт Elasticsearch
 spark = SparkSession.builder \
     .appName("ExportES") \
     .config("spark.jars.packages", "org.elasticsearch:elasticsearch-spark-30_2.12:8.8.0") \
@@ -60,5 +66,5 @@ result_df = tourists_df.join(tours_df, on="id_тура") \
 
 result_df.show()
 
-
+# Пауза, чтобы можно было посетить SparkUI
 input(f"visit http://localhost:4040 or {spark.sparkContext.uiWebUrl}...")

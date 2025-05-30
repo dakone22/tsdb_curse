@@ -1,28 +1,40 @@
+"""
+Скрипт для генерации тестовых данных о турах и туристах.
+Создает JSON-файлы в папках data/tours и data/tourists.
+"""
+
 import os, json, random
 from datetime import date, timedelta
 
-# Настройки
-num_tours = 30
-num_tourists = 30
-start_date = date(2020, 1, 1)
+# Настройки генерации
+num_tours = 30      # Количество генерируемых туров
+num_tourists = 30    # Количество генерируемых туристов
+start_date = date(2020, 1, 1)  # Начальная дата для генерации дат туров
 
-# Данные
+# Данные для генерации
 real_countries = ["Россия", "Италия", "Испания", "Франция", "Таиланд"]
 funny_places = ["в ад", "на Луну", "в Бобруйск", "на дачу к теще", "в офис", "в трясину", "в Зазеркалье"]
 real_places = ["Барселону", "Милан", "Бангкок", "Париж", "Сочи", "Рим", "Прагу", "Амстердам"]
 
+# Варианты названий туров
 funny_adjectives = ["Последнее", "Безумное", "Забытое", "Бессмысленное", "Потустороннее", "Потное"]
 real_adjectives = ["Увлекательное", "Экзотическое", "Романтическое", "Приключенческое", "Историческое", "Расслабляющее"]
 trip_types = ["путешествие", "тур", "поездка"]
 
+# Данные для генерации туристов
 first_names = ["Алексей", "Мария", "Иван", "Ольга", "Сергей", "Анна", "Дмитрий", "Елена", "Николай", "Татьяна"]
 last_names = ["Иванов", "Смирнова", "Кузнецов", "Попова", "Соколов", "Морозова", "Лебедев", "Козлова", "Новиков", "Федорова"]
 
+# Варианты отзывов туристов
 positive_reviews = ["Отличный тур, рекомендую!", "Все понравилось!", "Незабываемое путешествие!", "Очень доволен поездкой."]
 neutral_reviews = ["В целом нормально.", "Было интересно, но ожидал большего.", "Средний тур."]
 negative_reviews = ["Разочарован, не оправдало ожиданий.", "Сервис оставляет желать лучшего.", "Больше не поеду."]
 
 def generate_description():
+    """
+    Генерирует случайное описание тура.
+    Возвращает строку с описанием.
+    """
     intro_phrases = [
         "Для любителей острых ощущений",
         "Идеально подходит тем, кто устал от обычного",
@@ -71,21 +83,24 @@ def generate_description():
         "Берите зонт. Или зелье от страха.",
     ]
 
-    # Случайно миксуем реальные и юмористические локации
+    # Случайно миксуем
     location = random.choice(locations_real + locations_funny)
 
     return f"{random.choice(intro_phrases)}, {random.choice(actions)} {location}. {random.choice(endings)}"
 
 
-# Папки
+# Создаем папки для данных, если их нет
 os.makedirs('data/tours', exist_ok=True)
 os.makedirs('data/tourists', exist_ok=True)
 
-# Генерация туров
+# Генерация данных о турах
 for i in range(1,num_tours+1):
+    # Формируем случайное название тура
     adj = random.choice(real_adjectives + funny_adjectives)
     place = random.choice(real_places + funny_places)
     name = f"{adj} {random.choice(trip_types)} {place}"
+    
+    # Создаем структуру данных тура
     tour = {
         'id_тура': i,
         'название': name,
@@ -94,17 +109,27 @@ for i in range(1,num_tours+1):
         'стоимость': round(random.uniform(50000, 200000), 2),
         'услуга': random.sample(["экскурсия", "трансфер", "питание", "страховка"], random.randint(1, 4))
     }
+    
+    # Сохраняем тур в JSON-файл
     with open(f"data/tours/tour_{i}.json", 'w', encoding='utf-8') as f:
         json.dump(tour, f, ensure_ascii=False)
 
-# Генерация туристов и покупок
+# Генерация данных о туристах
 for i in range(1,num_tourists+1):
+    # Формируем ФИО туриста
     fio = f"{random.choice(last_names)} {random.choice(first_names)}"
+    
+    # Генерируем случайную дату тура
     purchase_date = start_date + timedelta(days=random.randint(0, 1000))
+    
+    # Выбираем случайный тур
     tour_id = random.randint(1, num_tours)
+    
+    # Генерируем отзыв (60% положительных, 25% нейтральных, 15% отрицательных)
     review_pool = random.choices([positive_reviews, neutral_reviews, negative_reviews], weights=[0.6, 0.25, 0.15])[0]
     review = random.choice(review_pool)
 
+    # Создаем структуру данных туриста
     tourist = {
         'id_туриста': i,
         'персональные_данные': fio,
@@ -114,5 +139,7 @@ for i in range(1,num_tourists+1):
         'сведения_о_визе': "Тип визы и дата выдачи.",
         'отзыв': review
     }
+    
+    # Сохраняем данные туриста в JSON-файл
     with open(f"data/tourists/tourist_{i}.json", 'w', encoding='utf-8') as f:
         json.dump(tourist, f, ensure_ascii=False)
