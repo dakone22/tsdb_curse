@@ -8,11 +8,11 @@ ES_HOST = os.environ.get("ES_HOST", "localhost")
 ES_PORT = os.environ.get("ES_PORT", "9200")
 
 DB_CONFIG = {
-    'dbname':    os.environ.get("POSTGRES_DBNAME",   "postgres"),
-    'user':      os.environ.get("POSTGRES_USER",     "postgres"),
-    'password':  os.environ.get("POSTGRES_PASSWORD", "iu6-magisters"),
-    'host':      os.environ.get("POSTGRES_HOST",     "localhost"),
-    'port':      os.environ.get("POSTGRES_PORT",     "5432"),
+    'dbname':   os.environ.get("POSTGRES_DBNAME",   "postgres"),
+    'user':     os.environ.get("POSTGRES_USER",     "postgres"),
+    'password': os.environ.get("POSTGRES_PASSWORD", "iu6-magisters"),
+    'host':     os.environ.get("POSTGRES_HOST",     "localhost"),
+    'port':     os.environ.get("POSTGRES_PORT",     "5432"),
 }
 
 # Загрузка модели

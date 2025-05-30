@@ -39,10 +39,8 @@ except Exception as e:
 
 analyzed = es.indices.analyze(
     index="tourists",
-    body={
-        "analyzer": "russian_custom",  # название твоего анализатора
-        "text": "Съешь ещё этих мягких французских булок, да выпей чаю"
-    }
+    analyzer="russian_custom",  # название твоего анализатора
+    text="Съешь ещё этих мягких французских булок, да выпей чаю"
 )
 
 print("\nРезультат анализа текста:")

@@ -70,7 +70,7 @@ def create_index(name, body):
             print(f"Индекс '{name}' уже существует, удаляем...")
             es.indices.delete(index=name)
         print(f"Создаём индекс '{name}'...")
-        es.indices.create(index=name, body=body)
+        es.indices.create(index=name, settings=body['settings'], mappings=body['mappings'])
         print(f"Индекс '{name}' успешно создан.")
     except exceptions.ElasticsearchException as e:
         print(f"Ошибка при создании индекса '{name}':", e)

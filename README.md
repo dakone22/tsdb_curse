@@ -8,7 +8,7 @@
 
 ```bash
 python3.10 -m venv .venv
-source .vevn/bin/activate
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
