@@ -1,9 +1,10 @@
-.idea/
+/.idea/*
 
-venv/
-.venv/
+/venv/*
+/.venv/*
 
-es/config/elasticsearch.keystore
+/es/config/elasticsearch.keystore
 
-output/
-data/
+/output/*
+!/output/.gitkeep
+/data/*
