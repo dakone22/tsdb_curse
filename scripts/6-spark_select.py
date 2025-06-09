@@ -5,13 +5,6 @@ from pyspark.sql import SparkSession
 ES_HOST = os.environ.get("ES_HOST", "localhost")  # Хост Elasticsearch
 ES_PORT = os.environ.get("ES_PORT", "9200")      # Порт Elasticsearch
 
-# Настройки подключения к Hadoop
-HOST = os.environ.get("HOST", "localhost")       # Хост Hadoop
-PORT = os.environ.get("PORT", "8020")            # Порт Hadoop
-
-# Формирование URL для подключения к HDFS
-URL = f"hdfs://{HOST}:{PORT}"
-
 # Создаем SparkSession с настройками для работы с Elasticsearch
 # - Имя приложения Spark
 # - spark.jars.packages: Подключаем Elasticsearch connector

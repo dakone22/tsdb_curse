@@ -8,11 +8,11 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, count
 
 # Настройки подключения к Hadoop
-HOST = os.environ.get("HOST", "localhost")   # Хост Hadoop
-PORT = os.environ.get("PORT", "8020")        # Порт Hadoop
+HADOOP_HOST = os.environ.get("HADOOP_HOST", "localhost")
+HADOOP_PORT = os.environ.get("HADOOP_PORT", "8020")
 
-# Формирование URI для подключения к HDFS
-HADOOP_URI = f"hdfs://{HOST}:{PORT}"
+# Формирование URL для подключения к HDFS
+HADOOP_URI = f"hdfs://{HADOOP_HOST}:{HADOOP_PORT}"
 
 # Создаем SparkSession
 spark = SparkSession.builder \
