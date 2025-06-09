@@ -19,7 +19,7 @@ analysis_settings = {
         "filter": {
             "russian_stop": {
                 "type": "stop",                  # Фильтр для стоп-слов
-                "stopwords": "_russian_"         # Используем встроенный список русских стоп-слов
+                "stopwords": "_russian_"         # Встроенный список русских стоп-слов
             },
             "russian_snowball": {
                 "type": "snowball",              # Стеммер для русского языка
@@ -29,7 +29,7 @@ analysis_settings = {
         "analyzer": {
             "russian_custom": {                  # Кастомный анализатор
                 "type": "custom",                # Тип - кастомный анализатор
-                "tokenizer": "standard",         # Используем стандартный токенизатор
+                "tokenizer": "standard",         # Стандартный токенизатор
                 "filter": [                      # Цепочка фильтров
                     "lowercase",                 # Приведение к нижнему регистру
                     "russian_stop",              # Удаление стоп-слов
@@ -45,13 +45,13 @@ tourists_body = {
     "settings": analysis_settings,  # Применяем настройки анализатора
     "mappings": {
         "properties": {
-            "id_туриста":           { "type": "keyword" },                             # ID туриста (ключевое поле)
-            "персональные_данные":  { "type": "text", "analyzer": "russian_custom" },  # *ФИО с анализом
-            "дата_тура":            { "type": "date", "format": "yyyy-MM-dd" },        # Дата в формате ГГГГ-ММ-ДД
-            "id_тура":              { "type": "keyword" },                             # ID связанного тура
-            "страна":               { "type": "keyword" },                             # Страна назначения
-            "сведения_о_визе":      { "type": "text", "analyzer": "russian_custom" },  # *Инфо о визе
-            "отзыв":                { "type": "text", "analyzer": "russian_custom" }   # *Отзыв туриста
+            "id_туриста":           { "type": "keyword" },                           
+            "персональные_данные":  { "type": "text", "analyzer": "russian_custom" },
+            "дата_тура":            { "type": "date", "format": "yyyy-MM-dd" },      
+            "id_тура":              { "type": "keyword" },                           
+            "страна":               { "type": "keyword" },                           
+            "сведения_о_визе":      { "type": "text", "analyzer": "russian_custom" },
+            "отзыв":                { "type": "text", "analyzer": "russian_custom" } 
         }
     }
 }
@@ -61,11 +61,11 @@ tours_body = {
     "settings": analysis_settings,  # Применяем настройки анализатора
     "mappings": {
         "properties": {
-            "название":  { "type": "keyword" },                             # Название тура
-            "страна":    { "type": "keyword" },                             # Страна назначения
-            "описание":  { "type": "text", "analyzer": "russian_custom" },  # *Описание тура
-            "стоимость": { "type": "double" },                              # Стоимость (число с плавающей точкой)
-            "услуга":    { "type": "text", "analyzer": "russian_custom" }   # *Включенные услуги
+            "название":  { "type": "keyword" },                           
+            "страна":    { "type": "keyword" },                           
+            "описание":  { "type": "text", "analyzer": "russian_custom" },
+            "стоимость": { "type": "double" },                            
+            "услуга":    { "type": "text", "analyzer": "russian_custom" } 
         }
     }
 }
