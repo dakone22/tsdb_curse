@@ -38,9 +38,9 @@ python scripts/1-es_create_index.py
 
 ## Дополнительно
 
-`script/run_cypher.py` используется для исполнения запросов. Например:
+`scripts/run_cypher.py` используется для исполнения запросов. Например:
 ```bash
-python script/run_cypher.py neo4j/queries/popular_tours.cypher
+python scripts/run_cypher.py neo4j/queries/popular_tours.cypher
 ```
 
 `spark_select_alt.py` - альтернатива скрипту 6: перед запросом данные читаются не из ES, а из HDFS. (Получается иной план с broadcast)
