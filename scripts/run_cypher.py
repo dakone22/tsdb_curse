@@ -10,7 +10,7 @@ from pathlib import Path
 from neo4j import GraphDatabase
 
 # Настройки подключения к Neo4j через переменные окружения
-NEO4J_HOST      = os.environ.get("NEO4J_HOST", "localhost")       # Хост Neo4j
+NEO4J_HOST      = os.environ.get("NEO4J_HOST", "localhost")      # Хост Neo4j
 NEO4J_BOLT_PORT = os.environ.get("NEO4J_BOLT_PORT", "7687")      # Порт для подключения по протоколу Bolt
 NEO4J_USER      = os.environ.get("NEO4J_USER", "neo4j")          # Имя пользователя
 NEO4J_PASSWORD  = os.environ.get("NEO4J_PASSWORD", "password")   # Пароль
